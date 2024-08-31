@@ -100,7 +100,8 @@ class _CalculatorViewState extends State<CalculatorView> {
             Align(
               alignment: Alignment.bottomRight,
               child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
+                // scrollDirection: Axis.vertical,
+                physics: const NeverScrollableScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -115,7 +116,7 @@ class _CalculatorViewState extends State<CalculatorView> {
                             overflow: TextOverflow.fade,
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 80,
+                              fontSize: 40,
                             ),
                           ),
                         ),
@@ -131,23 +132,48 @@ class _CalculatorViewState extends State<CalculatorView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Text(equation,
-                              style: const TextStyle(
-                                fontSize: 40,
-                                color: Colors.white38,
-                              )),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: RichText(
+                              maxLines: 3,
+                              textDirection: TextDirection.ltr,
+                              overflow: TextOverflow.ellipsis,
+                              text: TextSpan(
+                                text: equation,
+                                style: TextStyle(
+                                  fontSize: equation.length > 14 ? 26 : 40,
+                                  color: Colors.white38,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.backspace_outlined,
-                              color: Colors.orange, size: 30),
-                          onPressed: () {
-                            buttonPressed("⌫");
-                          },
-                        ),
+                        // Flexible(
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.all(20),
+                        //     child: Text(equation,
+                        //     // overflow: TextOverflow.ellipsis,
+                        // style:  TextStyle(
+                        //   fontSize: equation.length > 30 ? 20 : 40,
+                        //   color: Colors.white38,
+                        // )),
+                        //   ),
+                        // ),
+
                         const SizedBox(width: 20),
                       ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0, vertical: 12),
+                      child: IconButton(
+                        icon: const Icon(Icons.backspace_outlined,
+                            color: Colors.orange, size: 30),
+                        onPressed: () {
+                          equation.length == 10 ? null : buttonPressed("⌫");
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -159,9 +185,12 @@ class _CalculatorViewState extends State<CalculatorView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 calcButton("AC", Colors.white10, () => buttonPressed("AC")),
-                calcButton('%', Colors.white10, () => buttonPressed('%')),
-                calcButton('÷', Colors.white10, () => buttonPressed('÷')),
-                calcButton("×", Colors.white10, () => buttonPressed('×')),
+                calcButton('%', Colors.white10,
+                    () => equation.length == 66 ? null : buttonPressed('%')),
+                calcButton('÷', Colors.white10,
+                    () => equation.length == 66 ? null : buttonPressed('÷')),
+                calcButton("×", Colors.white10,
+                    () => equation.length == 66 ? null : buttonPressed('×')),
               ],
             ),
             const SizedBox(height: 10),
@@ -169,10 +198,14 @@ class _CalculatorViewState extends State<CalculatorView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                calcButton('7', Colors.white24, () => buttonPressed('7')),
-                calcButton('8', Colors.white24, () => buttonPressed('8')),
-                calcButton('9', Colors.white24, () => buttonPressed('9')),
-                calcButton('-', Colors.white10, () => buttonPressed('-')),
+                calcButton('7', Colors.white24,
+                    () => equation.length == 66 ? null : buttonPressed('7')),
+                calcButton('8', Colors.white24,
+                    () => equation.length == 66 ? null : buttonPressed('8')),
+                calcButton('9', Colors.white24,
+                    () => equation.length == 66 ? null : buttonPressed('9')),
+                calcButton('-', Colors.white10,
+                    () => equation.length == 66 ? null : buttonPressed('-')),
               ],
             ),
             const SizedBox(height: 10),
@@ -180,10 +213,14 @@ class _CalculatorViewState extends State<CalculatorView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                calcButton('4', Colors.white24, () => buttonPressed('4')),
-                calcButton('5', Colors.white24, () => buttonPressed('5')),
-                calcButton('6', Colors.white24, () => buttonPressed('6')),
-                calcButton('+', Colors.white10, () => buttonPressed('+')),
+                calcButton('4', Colors.white24,
+                    () => equation.length == 66 ? null : buttonPressed('4')),
+                calcButton('5', Colors.white24,
+                    () => equation.length == 66 ? null : buttonPressed('5')),
+                calcButton('6', Colors.white24,
+                    () => equation.length == 66 ? null : buttonPressed('6')),
+                calcButton('+', Colors.white10,
+                    () => equation.length == 66 ? null : buttonPressed('+')),
               ],
             ),
             const SizedBox(height: 10),
@@ -198,15 +235,27 @@ class _CalculatorViewState extends State<CalculatorView> {
                     Row(
                       children: [
                         calcButton(
-                            '1', Colors.white24, () => buttonPressed('1')),
+                            '1',
+                            Colors.white24,
+                            () => equation.length == 66
+                                ? null
+                                : buttonPressed('1')),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.06),
                         calcButton(
-                            '2', Colors.white24, () => buttonPressed('2')),
+                            '2',
+                            Colors.white24,
+                            () => equation.length == 66
+                                ? null
+                                : buttonPressed('2')),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.06),
                         calcButton(
-                            '3', Colors.white24, () => buttonPressed('3')),
+                            '3',
+                            Colors.white24,
+                            () => equation.length == 66
+                                ? null
+                                : buttonPressed('3')),
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -214,15 +263,27 @@ class _CalculatorViewState extends State<CalculatorView> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         calcButton(
-                            '+/-', Colors.white24, () => buttonPressed('+/-')),
+                            '+/-',
+                            Colors.white24,
+                            () => equation.length == 66
+                                ? null
+                                : buttonPressed('+/-')),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.06),
                         calcButton(
-                            '0', Colors.white24, () => buttonPressed('0')),
+                            '0',
+                            Colors.white24,
+                            () => equation.length == 66
+                                ? null
+                                : buttonPressed('0')),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.06),
                         calcButton(
-                            '.', Colors.white24, () => buttonPressed('.')),
+                            '.',
+                            Colors.white24,
+                            () => equation.length == 66
+                                ? null
+                                : buttonPressed('.')),
                       ],
                     ),
                   ],
